@@ -72,7 +72,7 @@ Or you can do the steps manually as described below. This is mandatory if you ar
 ### Manual steps:
 Create necessary external volumes for the database and cache:
 
-    docker volume create --name data-postgresql --driver local
+    docker volume create --name canvas-postgresql --driver local
 
     docker volume create --name canvas-redis --driver local
 
