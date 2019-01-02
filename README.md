@@ -4,9 +4,15 @@ Docker Canvas
 Docker provisioning for Canvas 
 
 ### Prerequisites
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+or
 
 * [Docker Engine](https://docs.docker.com/engine/installation/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
+
+and
+
 * Large amount (~4GB) of memory allocated to your docker machine (Canvas uses a lot of memory)
 
 ### Clone Repo 
@@ -15,7 +21,7 @@ Docker provisioning for Canvas
 
 ### Persistant data
 
-During first run in udir-canvas folder will be created folder '.user_data'
+During the first run the folder '.user_data' will be created 
 this folder will contain all your data.
 
 ### Canvas environment configuration
