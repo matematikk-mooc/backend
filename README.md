@@ -86,9 +86,7 @@ Wait a few moments for the database to start then (command might fail if databas
 
 The branding assets must also be manually generated when canvas is in production mode:
 
-    docker-compose run --rm app bundle exec rake \
-        canvas:compile_assets_dev \
-        brand_configs:generate_and_upload_all
+    docker-compose run --rm app bundle exec rake canvas:compile_assets_dev brand_configs:generate_and_upload_all
 
 Finally startup all the services (the build will create a docker image for you):
 
