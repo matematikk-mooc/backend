@@ -1,0 +1,61 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=canvas
+      - POSTGRES_PASSWORD=canvas
+      - POSTGRES_DB=canvas
+    volumes:
+       - canvas-postgresql:/var/lib/postgresql
+    ports:
+      - "15432:5432"
+
+  redis:
+    image: redis:3.2.4
+    command: redis-server --appendonly yes
+    volumes:
+      - canvas-redis:/data
+  mail:
+    image: mailhog/mailhog:v1.0.0
+    ports:
+      - "8901:8025"
+  app: &app
+    image: docker-canvas
+    build: .
+    command: bash -c "./wait-for-it.sh -t 40 db:5432 && /usr/src/entrypoint"
+    env_file: ./config.env
+    volumes:
+      - ./.user_data/public/dist/brandable_css:/usr/src/app/public/dist/brandable_css
+      - ./config/database.yml:/usr/src/app/config/database.yml:ro
+      - ./config/nginx-selfsigned.crt:/etc/ssl/certs/nginx-selfsigned.crt:ro
+      - ./config/nginx-selfsigned.key:/etc/ssl/certs/nginx-selfsigned.key:ro
+      - ./config/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro
+      - ./config/nginx.conf:/usr/src/nginx/nginx.conf:ro
+      - ./config/redis.yml:/usr/src/app/config/redis.yml:ro
+      - ./config/cache.yml:/usr/src/app/config/cache.yml:ro
+      - ./config/outgoing_mail.yml:/usr/src/app/config/outgoing_mail.yml:ro
+      - ./config/security.yml:/usr/src/app/config/security.yml:ro
+      - ./config/delayed_jobs.yml:/usr/src/app/config/delayed_jobs.yml:ro
+      - ./config/domain.yml:/usr/src/app/config/domain.yml:ro
+      - ./config/development-local.rb:/usr/src/app/config/environments/development-local.rb:ro
+      - ./wait-for-it.sh:/usr/src/app/wait-for-it.sh:ro
+      - ./.user_data/tmp:/usr/src/app/tmp
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - db
+      - redis
+      - mail
+
+  worker:
+    <<: *app
+    command: bundle exec script/delayed_job run
+    ports:
+      - "8902:80"
+volumes:
+  canvas-postgresql:
+     external: true
+  canvas-redis:
+     external: true
