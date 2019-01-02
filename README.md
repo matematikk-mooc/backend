@@ -69,7 +69,7 @@ To start using docker Canvas environment you can use this script if you have mac
 Or you can do the steps manually as described below. This is mandatory if you are running on windows. 
 
 
-### Manually steps:
+### Manual steps:
 Create necessary external volumes for the database and cache:
 
     docker volume create --name data-postgresql --driver local
