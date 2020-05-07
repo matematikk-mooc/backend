@@ -1,7 +1,7 @@
 Docker Canvas 
 -------------------------------
 
-Docker provisioning for Canvas. This repository is _not_ for building a Canvas for deployment to production, but it is suited for running Canvas as a dependency to other modules, e.g. https://github.com/matematikk-mooc/kpas-api.
+Docker provisioning for Canvas. This repository is _not_ for building Canvas for deployment to production, but it is suited for running Canvas as a dependency to other modules during development, e.g. https://github.com/matematikk-mooc/kpas-api.
 
 ### Prerequisites
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
